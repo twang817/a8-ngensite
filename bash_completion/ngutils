@@ -1,0 +1,34 @@
+#!/bin/bash
+
+CONFDIR="/etc/nginx"
+
+_ngensite() {
+    local cur
+    COMPRELY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    opts="-q"
+
+    if [[ ${cur} == -* ]]; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    else
+        COMPREPLY=( $(compgen -W '$(find $CONFDIR/sites-available -type f -printf "%P " 2>/dev/null )' -- ${cur}) )
+    fi
+    return 0
+}
+
+_ngdissite() {
+    local cur
+    COMPRELY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    opts="-q"
+
+    if [[ ${cur} == -* ]]; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    else
+        COMPREPLY=( $(compgen -W '$(find $CONFDIR/sites-enabled -type l -printf "%P " 2>/dev/null )' -- ${cur}) )
+    fi
+    return 0
+}
+
+complete -F _ngensite ngensite
+complete -F _ngdissite ngdissite

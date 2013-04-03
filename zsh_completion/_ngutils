@@ -1,0 +1,17 @@
+#compdef ngensite ngdissite
+
+CONFDIR="/etc/nginx"
+
+case "$service" in
+    ngensite)
+        _wanted sites expl sites \
+            _files -W $CONFDIR/sites-available
+        ;;
+    ngdissite)
+        _wanted sites expl sites \
+            _files -W $CONFDIR/sites-enabled
+        ;;
+esac
+
+return 0
+
